@@ -5,6 +5,9 @@ const router = require('./routers/task');
 const Tasks = require('./models/taskmodel');
 const User = require('./models/usermodel');
 require('./db/mongoose');
+const Cors = require('cors');
+
+app.use(Cors());
 
 const port = process.env.PORT;
    
