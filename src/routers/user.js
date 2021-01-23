@@ -34,10 +34,13 @@ userRouter.post('/users', async (req,res) => {
 userRouter.post('/users/login', async (req,res) => {
     try {
         const user = await User.comparePassword(req.body.email,req.body.password);
+        if(!user){
+            throw new Error('You must Sign Up First')
+        }
         const token = await user.generateAuthTokens();
         res.send({user,token})
     } catch (error) {
-        res.status(500).send();
+        res.status(500).send({error: error.message});
     }
 })
 
