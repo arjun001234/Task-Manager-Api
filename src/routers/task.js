@@ -5,6 +5,10 @@ const auth = require('../middleware/auth');
 const router = new express.Router();
 
 router.post('/tasks',auth ,async (req,res) => {
+    const validation = await Tasks.findOne({owner: req.user._id,task: req.body.name});
+    if(validation){
+        throw new Error('Task with this name already exist');
+    }
     const task = new Tasks({...req.body,owner: req.user._id})
     try {
         await task.save()
