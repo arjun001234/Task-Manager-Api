@@ -85,9 +85,8 @@ userRouter.delete('/users/me',auth, async (req,res) => {
     try {
         await req.user.remove();
         sendCancellationMail(req.user.mail,req.user.name);
-        const task = await Tasks.find({owner: req.user._id});
-        await task.remove();
-        res.send(req.user);
+        await Tasks.findOneAndDelete({owner: req.user._id});
+        res.send(req.user); 
     } catch (error) {
         res.status(400).send(error);
     }

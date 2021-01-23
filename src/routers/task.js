@@ -5,16 +5,16 @@ const auth = require('../middleware/auth');
 const router = new express.Router();
 
 router.post('/tasks',auth ,async (req,res) => {
-    const validation = await Tasks.findOne({owner: req.user._id,task: req.body.name});
+    const validation = await Tasks.findOne({owner: req.user._id,task: req.body.task});
     if(validation){
-        throw new Error('Task with this name already exist');
+        return res.status(400).send({error: 'Task with this name already exist'})
     }
     const task = new Tasks({...req.body,owner: req.user._id})
     try {
         await task.save()
         res.status(201).send(task)
     } catch (error) {
-        res.status(400).send(error)
+        res.status(400).send(MSMediaKeyError)
     }
 })
 
