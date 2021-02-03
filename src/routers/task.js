@@ -47,11 +47,11 @@ router.get('/tasks', auth , async (req,res) => {
     }
 })
 
-router.get('/tasks/:id', auth ,async (req,res) => {
-    const _id = req.params.id;
+router.post('/tasks/search', auth ,async (req,res) => {
+    const regex = new RegExp(req.body.task, 'i') // i for case insensitive
 
      try {
-         const task = await Tasks.findOne({ _id, owner: req.user._id}) 
+         const task = await Tasks.find({ task: regex, owner: req.user._id}) 
          if(!task){
              return res.status(404).send()
          }
@@ -98,4 +98,4 @@ router.delete('/tasks/:id',auth, async(req,res) => {
 })
 
 
-module.exports = router
+module.exports = router;

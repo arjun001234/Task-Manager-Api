@@ -32,7 +32,7 @@ userRouter.post('/users', async (req,res) => {
 })
 
 userRouter.post('/users/login', async (req,res) => {
-    try {
+    try { 
         const user = await User.comparePassword(req.body.email,req.body.password);
         if(!user){
             throw new Error('You must Sign Up First')
